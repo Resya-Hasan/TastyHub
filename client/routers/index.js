@@ -2,13 +2,14 @@ const express = require('express')
 const router = express.Router()
 
 const ProductController = require('../controllers/controllProduct')
+const controllUser = require('../controllers/controllUser')
 
-router.get('/', (req, res) => {
-  res.send('Hello World!')
-})
+router.post('/register', controllUser.register)
+router.post('/login', controllUser.login)
 
 router.get('/menus', ProductController.getProducts)
 router.get('/menus/:id', ProductController.getProductById)
+// router.post('/order', ProductController.addOrder)
 
 // ├── GET /menus → Lihat semua menu makanan
 // ├── GET /menus/:id → Lihat detail menu makanan

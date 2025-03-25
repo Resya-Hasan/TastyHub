@@ -3,7 +3,9 @@ const { Product } = require('../models');
 class ProductController {
     static async getProducts(req, res, next) {
         try {
-            const products = await Product.findAll();
+            const products = await Product.findAll({
+                include: 'Category'
+            });
             res.status(200).json(products)
         } catch (error) {
             next(error);
@@ -13,7 +15,30 @@ class ProductController {
     static async getProductById(req, res, next) {
         try {
             const { id } = req.params;
-            const product = await Product.findByPk(id);
+            const product = await Product.findByPk(
+                id,
+                {
+                    include: 'Category'
+                }
+            );
+            if (!product) {
+                throw { name: "not found", message: 'Product not found' };
+            }
+            res.status(200).json(product);
+        } catch (error) {
+            next(error);
+        }
+    }
+
+    static async addOrder(req, res, next) {
+        try {
+            const { id } = req.params;
+            const product = await Product.findByPk(
+                id,
+                {
+                    include: 'Category'
+                }
+            );
             if (!product) {
                 throw { name: "not found", message: 'Product not found' };
             }
