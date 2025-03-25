@@ -8,6 +8,10 @@ const errorHandleMiddleware = (err, req, res, next) => {
         res.status(400).json({ message: err.message });
     }
 
+    if (err.name === 'JsonWebTokenError') {
+        res.status(400).json({ message: "Invalid token" });
+    }
+
     if (err.name === 'Unathorized') {
         res.status(401).json({ message: err.message });
     }

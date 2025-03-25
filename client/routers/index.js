@@ -3,9 +3,12 @@ const router = express.Router()
 
 const ProductController = require('../controllers/controllProduct')
 const controllUser = require('../controllers/controllUser')
+const authentication = require('../middleware/authentication')
 
 router.post('/register', controllUser.register)
 router.post('/login', controllUser.login)
+
+router.use(authentication)
 
 router.get('/menus', ProductController.getProducts)
 router.get('/menus/:id', ProductController.getProductById)
