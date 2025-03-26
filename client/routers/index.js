@@ -22,6 +22,7 @@ router.post('/menus', ProductController.addProduct)
 router.put('/menus/:id', ProductController.editProduct)
 router.delete('/menus/:id', ProductController.deleteProduct)
 router.get('/orders', ControllOrder.getOrders)
+router.put('/orders/:id/status', ControllOrder.updateOrderStatus)
 
 // ├── GET /menus → Lihat semua menu makanan (admin view)
 // ├── POST /menus → Tambah menu baru

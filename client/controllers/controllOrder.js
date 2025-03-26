@@ -32,7 +32,7 @@ class ControllOrder {
             const order = await Order.create({
                 UserId,
                 totalPrice,
-                status: 'pending'
+                status: 'diroses'
             });
 
             const orderDetail = productData.map((el) => {
@@ -67,6 +67,29 @@ class ControllOrder {
             });
 
             res.status(200).json(orders);
+        } catch (error) {
+            next(error);
+        }
+    }
+
+    static async updateOrderStatus(req, res, next) {
+        try {
+            const { id } = req.params;
+            const { status } = req.body;
+
+            const validStatus = ['diproses', 'dikirim', 'selesai'];
+
+            if(!validStatus.includes(status)) {
+                throw { name: "badRequest", message: 'Invalid status' };
+            }
+
+            const order = await Order.findByPk(id);
+            if (!order) {
+                throw { name: "not found", message: 'Order not found' };
+            }
+
+            await order.update({ status });
+            res.status(200).json({ message: 'Order status updated' });
         } catch (error) {
             next(error);
         }
