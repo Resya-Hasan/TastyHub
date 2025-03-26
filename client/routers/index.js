@@ -5,6 +5,7 @@ const ProductController = require('../controllers/controllProduct')
 const controllUser = require('../controllers/controllUser')
 const authentication = require('../middleware/authentication')
 const ControllOrder = require('../controllers/controllOrder')
+const adminOnly = require('../middleware/adminOnly')
 
 router.post('/register', controllUser.register)
 router.post('/login', controllUser.login)
@@ -15,13 +16,17 @@ router.get('/menus', ProductController.getProducts)
 router.get('/menus/:id', ProductController.getProductById)
 router.post('/order', ControllOrder.createOrder)
 
-// ├── GET /menus → Lihat semua menu makanan
-// ├── GET /menus/:id → Lihat detail menu makanan
-// ├── GET /menus?search=burger → Cari menu berdasarkan keyword
-// ├── GET /menus?category=drinks → Filter menu berdasarkan kategori
-// ├── POST /wishlist/:menuId → Tambah menu ke wishlist
-// ├── DELETE /wishlist/:menuId → Hapus menu dari wishlist
-// ├── POST /order → Buat order baru
-// └── GET /order/history → Lihat riwayat order
+router.use(adminOnly)
+
+router.post('/menus', ProductController.addProduct)
+
+// ├── GET /menus → Lihat semua menu makanan (admin view)
+// ├── POST /menus → Tambah menu baru
+// ├── GET /menus/:id → Lihat detail menu
+// ├── PUT /menus/:id → Edit menu
+// ├── DELETE /menus/:id → Hapus menu
+// ├── GET /orders → Lihat semua order yang masuk
+// ├── PUT /orders/:id/status → Update status pesanan (diproses/dikirim/selesai)
+// └── GET /dashboard → Statistik penjualan (opsional kalau sempat)
 
 module.exports = router

@@ -7,6 +7,10 @@ class ControllOrder {
             const UserId = req.user.id;
             let { items } = req.body;
 
+            if (!items || items.length === 0) {
+                throw { name: "badRequest", message: 'Items is required' };
+            }
+
             let totalPrice = 0;
             const productData = await Promise.all(
                 items.map(async (el) => {
