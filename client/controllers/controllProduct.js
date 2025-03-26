@@ -1,11 +1,30 @@
-const { Product } = require('../models');
+const { where } = require('sequelize');
+const { Product, Category } = require('../models');
+const { Op } = require('sequelize');
 
 class ProductController {
     static async getProducts(req, res, next) {
         try {
-            const products = await Product.findAll({
-                include: 'Category'
-            });
+            const { search, category } = req.query;
+
+            let option = {
+                include: {
+                    model: Category
+                },
+                where: {}
+            }
+
+            if (search) {
+                option.where.name = {
+                    [Op.iLike]: `%${search}%`
+                }
+            }
+
+            if (category) {
+                option.where.CategoryId = category;
+            }
+
+            const products = await Product.findAll(option);
             res.status(200).json(products)
         } catch (error) {
             next(error);
