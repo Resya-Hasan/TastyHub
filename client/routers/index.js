@@ -19,6 +19,7 @@ router.post('/order', ControllOrder.createOrder)
 router.use(adminOnly)
 
 router.post('/menus', ProductController.addProduct)
+router.put('/menus/:id', ProductController.editProduct)
 
 // ├── GET /menus → Lihat semua menu makanan (admin view)
 // ├── POST /menus → Tambah menu baru
