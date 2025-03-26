@@ -11,8 +11,8 @@ module.exports = (sequelize, DataTypes) => {
      */
     static associate(models) {
       // define association here
-      Wishlist.belongsTo(models.User)
-      Wishlist.belongsTo(models.Product)
+      Wishlist.belongsTo(models.User, { foreignKey: 'UserId' });
+      Wishlist.belongsTo(models.Product, { foreignKey: 'ProductId' });
     }
   }
   Wishlist.init({

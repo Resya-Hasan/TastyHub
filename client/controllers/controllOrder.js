@@ -1,5 +1,4 @@
-const { or } = require("sequelize");
-const { Order, OrderDetail, Product } = require("../models");
+const { User, Order, OrderDetail, Product } = require("../models");
 
 class ControllOrder {
     static async createOrder(req, res, next) {
@@ -53,6 +52,21 @@ class ControllOrder {
                 order
             });
 
+        } catch (error) {
+            next(error);
+        }
+    }
+
+    static async getOrders(req, res, next) {
+        try {
+            const orders = await Order.findAll({
+                include: [
+                    { model: User, attributes: { exclude: ['password'] } },
+                    { model: OrderDetail }
+                ]
+            });
+
+            res.status(200).json(orders);
         } catch (error) {
             next(error);
         }

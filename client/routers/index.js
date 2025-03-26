@@ -21,6 +21,7 @@ router.use(adminOnly)
 router.post('/menus', ProductController.addProduct)
 router.put('/menus/:id', ProductController.editProduct)
 router.delete('/menus/:id', ProductController.deleteProduct)
+router.get('/orders', ControllOrder.getOrders)
 
 // ├── GET /menus → Lihat semua menu makanan (admin view)
 // ├── POST /menus → Tambah menu baru
