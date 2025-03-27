@@ -1,0 +1,14 @@
+[
+    {
+      "username": "admin",
+      "email": "admin@foodieapp.com",
+      "password": "admin123",
+      "role": "Admin"
+    },
+    {
+      "username": "john_doe",
+      "email": "john@example.com",
+      "password": "john123",
+      "role": "Customer"
+    }
+]
