@@ -3,31 +3,25 @@ import http from "../api/http";
 import Card from "../components/Card";
 import handleApiError from "../api/handleError";
 import Swal from 'sweetalert2'
+import { useDispatch, useSelector } from "react-redux";
+import { fetchProducts, fetchProductsSuccess } from "../store/productSlice";
 
 const Products = () => {
-    const [products, setProducts] = useState([]);
+    // const [products, setProducts] = useState([]);
+    const dispatch = useDispatch()
+    const reduxState = useSelector((state) => {
+        return state.products
+    })
+    console.log(reduxState, '<<< redux state')
 
-    async function fetchPosts() {
-        try {
-            const response = await http({
-                method: "get",
-                url: "/products",
-                headers: {
-                    Authorization: `Bearer ${localStorage.getItem("access_token")}`
-                }
-            })
-            const result = response.data
-            setProducts(result)
-        } catch (error) {
-            handleApiError(error);
-        }
-    }
+    const products = useSelector((state) => {
+        return state.products.data
+    })
 
     useEffect(() => {
-        fetchPosts()
+        dispatch(fetchProducts())
     }, []);
 
-    console.log(products)
 
     return (
         <div>

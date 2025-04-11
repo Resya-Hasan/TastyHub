@@ -10,6 +10,7 @@ const adminOnly = require('../middleware/adminOnly')
 
 router.post('/register', controllUser.register)
 router.post('/login', controllUser.login)
+router.post('/login/google', controllUser.googleLogin)
 
 router.use(authentication)
 

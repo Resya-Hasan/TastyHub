@@ -1,7 +1,9 @@
+import { useDispatch, useSelector } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
 
 const Navbar = () => {
   const navigate = useNavigate();
+  const dispatch = useDispatch()
 
   const handleLogout = () => {
     localStorage.removeItem('access_token')

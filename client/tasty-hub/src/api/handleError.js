@@ -2,6 +2,7 @@ import { useNavigate } from "react-router-dom";
 import Swal from "sweetalert2";
 
 const handleApiError = (error) => {
+    console.log(error, "<<< error dari api");
 
     if (error.response) {
         const { status, data } = error.response;

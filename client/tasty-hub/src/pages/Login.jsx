@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import http from "../api/http";
 import { Link, Navigate, useNavigate } from "react-router-dom";
 import handleApiError from "../api/handleError";
@@ -25,6 +25,37 @@ const Login = () => {
         }
     };
 
+    async function handleCredentialResponse(response) {
+        console.log("Encoded JWT ID token: " + response.credential);
+        try {
+            const response = await http({
+                method: "post",
+                url: `/login/google`,
+            })
+    
+            localStorage.setItem("access_token", response.data.access_token);
+            navigate("/products");
+        } catch (err) {
+            console.log(err, "<<< error")
+        }
+      }
+
+    useEffect(() => {
+        if (localStorage.getItem("access_token")) {
+            navigate("/products");
+        }
+
+        google.accounts.id.initialize({
+            client_id: "1004156953817-6kc6gmn8k4jesm64bkmnuce3ajsn0fso.apps.googleusercontent.com", 
+            callback: handleCredentialResponse
+          });
+          google.accounts.id.renderButton(
+            document.getElementById("google-button"),
+            { theme: "outline", size: "large" }  // customization attributes
+          );
+        //   google.accounts.id.prompt(); // also display the One Tap dialog
+    } )
+
     return (
         <div className="container">
             <h1>Login</h1>
@@ -40,6 +71,8 @@ const Login = () => {
                 <button type="submit" className="btn btn-primary">Login</button>
                 <p>You have not account? <Link to="/register">register now</Link></p>
             </form>
+
+            <div id="google-button"></div>
         </div>
     );
 }
